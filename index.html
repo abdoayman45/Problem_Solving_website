@@ -1,7 +1,6 @@
 <!DOCTYPE html>
 <html lang="ar">
 <head>
-  <!-- الريبو الجديد -->
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>سلسلة حل المشكلات (Problem Solving) الرمضانية</title>
@@ -10,11 +9,7 @@
   <script src="https://cdn.jsdelivr.net/npm/brython@3.9.5/brython_stdlib.js"></script>
   <style>
     /* إعادة تعيين الأنماط الأساسية */
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
     body {
       font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
       direction: rtl;
@@ -23,7 +18,7 @@
       min-height: 100vh;
       overflow-x: hidden;
     }
-    /* نمط خانة وصف التحدي بخط أكبر وسميك ولون بارز */
+    /* نمط خانة وصف التحدي */
     #challengeDescription {
       font-size: 1.5em;
       font-weight: bold;
@@ -56,9 +51,7 @@
       padding: 10px 20px;
       box-shadow: 0 2px 5px rgba(0,0,0,0.1);
       position: fixed;
-      top: 0;
-      left: 0;
-      right: 0;
+      top: 0; left: 0; right: 0;
       z-index: 1000;
     }
     header .hamburger {
@@ -77,10 +70,8 @@
       background-color: #333;
       border-radius: 3px;
     }
-    header h1 {
-      font-size: 1.2em;
-    }
-    /* القائمة الجانبية (Drawer) */
+    header h1 { font-size: 1.2em; }
+    /* القائمة الجانبية */
     .drawer {
       position: fixed;
       top: 60px;
@@ -94,9 +85,7 @@
       padding: 20px;
       z-index: 999;
     }
-    .drawer.open {
-      right: 0;
-    }
+    .drawer.open { right: 0; }
     .drawer a {
       display: block;
       padding: 10px;
@@ -115,9 +104,7 @@
       transition: transform 0.3s ease;
       padding: 80px 20px 20px;
     }
-    .main-content.shifted {
-      transform: translateX(-250px);
-    }
+    .main-content.shifted { transform: translateX(-250px); }
     /* تصميم الحاويات */
     .container {
       margin-bottom: 20px;
@@ -150,9 +137,7 @@
       font-size: 1em;
       transition: background-color 0.3s ease;
     }
-    button:hover {
-      background-color: #67d8c1;
-    }
+    button:hover { background-color: #67d8c1; }
     /* المربع الذي يظهر الحل */
     .hidden-solution {
       display: none;
@@ -164,19 +149,10 @@
     }
     /* استجابة التصميم */
     @media (max-width: 768px) {
-      header h1 {
-        font-size: 1em;
-      }
-      header .hamburger {
-        width: 25px;
-        height: 18px;
-      }
-      .drawer {
-        width: 200px;
-      }
-      .main-content.shifted {
-        transform: translateX(-200px);
-      }
+      header h1 { font-size: 1em; }
+      header .hamburger { width: 25px; height: 18px; }
+      .drawer { width: 200px; }
+      .main-content.shifted { transform: translateX(-200px); }
     }
   </style>
 </head>
@@ -273,12 +249,12 @@
       return urlParams.get(param);
     }
     
-    // تمييز الرابط النشط في القائمة
+    // تمييز الرابط النشط في القائمة (مقارنة مطلقة)
     function markActiveLink() {
       var day = getQueryParam("day") || "1";
       var links = document.querySelectorAll("#drawer a");
       links.forEach(function(link) {
-        if(link.getAttribute("href").indexOf("day=" + day) !== -1) {
+        if(link.getAttribute("href") === "?day=" + day) {
           link.classList.add("active");
         } else {
           link.classList.remove("active");
@@ -313,10 +289,8 @@
       "30": "# الحل\n\ndef solve(s):\n    return s[::-1]"
     };
     
-    // الحصول على اليوم المطلوب من الرابط
     var day = getQueryParam("day") || "1";
     
-    // تعيين وصف التحدي والحل الصحيح حسب اليوم
     if(challenges[day]) {
       document.getElementById("challengeDescription").value = challenges[day];
     } else {
@@ -329,13 +303,12 @@
       document.getElementById("expectedSolution").value = "# لا يوجد حل مخفي لهذا اليوم.";
     }
     
-    // تمييز الرابط النشط في القائمة
     markActiveLink();
     
     function markActiveLink() {
       var links = document.querySelectorAll("#drawer a");
       links.forEach(function(link) {
-        if(link.getAttribute("href").indexOf("day=" + day) !== -1) {
+        if(link.getAttribute("href") === "?day=" + day) {
           link.classList.add("active");
         } else {
           link.classList.remove("active");
@@ -348,7 +321,6 @@
   <script type="text/python">
     from browser import document
     
-    # قاموس يربط رقم اليوم باسم الدالة المتوقعة
     expectedFunctionNames = {
         "1": "prime_numbers",
         "2": "remove_duplicate",
@@ -362,29 +334,18 @@
         "30": "solve"
     }
     
-    # يمكن أيضًا إعداد مدخلات اختبار لكل تحدي إذا لزم الأمر
     testInputs = {
-        "1": (1, 10),  # مثال: prime_numbers(1,10)
-        "2": ([1,2,2,3,4,3,5],),  # remove_duplicate([1,2,2,3,4,3,5])
-        "3": (10,),  # countdown(10)
-        "4": ("الوسطى",),  # get_saudi_traditional_dance("الوسطى")
-        "5": ([4.0, 9.0, 16.0],),  # array_root([4.0,9.0,16.0])
-        "6": ("Madam",),  # isPalindrome("Madam")
-        "7": ("MOHAMMMED",),  # repetitions("MOHAMMMED")
-        "8": (5,),  # factorial(5)
-        "9": (["abc", "def"],),  # str_len_comparison(["abc","def"])
-        "30": ("hello",)  # solve("hello")
+        "1": (1, 10),
+        "2": ([1,2,2,3,4,3,5],),
+        "3": (10,),
+        "4": ("الوسطى",),
+        "5": ([4.0, 9.0, 16.0],),
+        "6": ("Madam",),
+        "7": ("MOHAMMMED",),
+        "8": (5,),
+        "9": (["abc", "def"],),
+        "30": ("hello",)
     }
-    
-    # القيمة المتوقعة لكل تحدي من خلال تنفيذ الحل الصحيح
-    expectedResults = {}
-    # ننفذ الحل الصحيح ونضع النتيجة في expectedResults لكل تحدي (إذا أمكن)
-    try:
-        expected_namespace = {}
-        exec(document["expectedSolution"].value, expected_namespace)
-        expected_func_name = expectedFunctionNames.get(document["challengeDescription"].value.split("اسمها:")[1].split()[0].strip(), None)
-    except Exception as e:
-        expected_func_name = None
     
     def show_result(msg, status):
         if status == "success":
@@ -407,7 +368,6 @@
                 show_result("الحل الصحيح غير معرف بشكل صحيح في الحل المخفي.", "error")
                 return
             expected_func = expected_namespace[func_name]
-            # احصل على مدخلات الاختبار المناسبة
             test_input = testInputs.get(day, ())
             expected_result = expected_func(*test_input)
         except Exception as e:
