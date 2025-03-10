@@ -1,16 +1,436 @@
-def is_prime(n):
-    if n < 2:
-        return False
-    for i in range(2, int(n ** 0.5) + 1):
-        if n % i == 0:
-            return False
-    return True
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>سلسلة حل المشكلات (Problem Solving) الرمضانية</title>
+  <!-- تضمين مكتبة Brython لتشغيل كود بايثون في المتصفح -->
+  <script src="https://cdn.jsdelivr.net/npm/brython@3.9.5/brython.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/brython@3.9.5/brython_stdlib.js"></script>
+  <style>
+    /* إعادة تعيين الأنماط الأساسية */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      direction: rtl;
+      background: linear-gradient(135deg, #74ebd5, #acb6e5);
+      color: #333;
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+    /* نمط خانة وصف التحدي بخط أكبر وسميك ولون بارز */
+    #challengeDescription {
+      font-size: 1.5em;
+      font-weight: bold;
+      color: #000;
+    }
+    /* نمط رسالة النتيجة */
+    .result {
+      margin-top: 10px;
+      padding: 10px;
+      border-radius: 4px;
+      font-weight: bold;
+      text-align: center;
+    }
+    .result.success {
+      background-color: #d4edda;
+      color: #155724;
+      border: 1px solid #c3e6cb;
+    }
+    .result.error {
+      background-color: #f8d7da;
+      color: #721c24;
+      border: 1px solid #f5c6cb;
+    }
+    /* رأس الصفحة ثابت */
+    header {
+      background-color: #fff;
+      display: flex;
+      align-items: center;
+      justify-content: flex-start;
+      padding: 10px 20px;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 1000;
+    }
+    header .hamburger {
+      margin-left: 10px;
+      cursor: pointer;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      height: 20px;
+      width: 30px;
+    }
+    header .hamburger span {
+      display: block;
+      width: 100%;
+      height: 3px;
+      background-color: #333;
+      border-radius: 3px;
+    }
+    header h1 {
+      font-size: 1.2em;
+    }
+    /* القائمة الجانبية (Drawer) */
+    .drawer {
+      position: fixed;
+      top: 60px;
+      right: -260px;
+      width: 250px;
+      height: calc(100% - 60px);
+      background-color: #fff;
+      box-shadow: -2px 0 5px rgba(0,0,0,0.1);
+      transition: right 0.3s ease;
+      overflow-y: auto;
+      padding: 20px;
+      z-index: 999;
+    }
+    .drawer.open {
+      right: 0;
+    }
+    .drawer a {
+      display: block;
+      padding: 10px;
+      text-decoration: none;
+      color: #333;
+      border-bottom: 1px solid #eee;
+      transition: background-color 0.3s, color 0.3s;
+    }
+    .drawer a.active {
+      background-color: #74ebd5;
+      color: #fff;
+      font-weight: bold;
+    }
+    /* المحتوى الأساسي */
+    .main-content {
+      transition: transform 0.3s ease;
+      padding: 80px 20px 20px;
+    }
+    .main-content.shifted {
+      transform: translateX(-250px);
+    }
+    /* تصميم الحاويات */
+    .container {
+      margin-bottom: 20px;
+      background: rgba(255,255,255,0.8);
+      padding: 15px;
+      border-radius: 8px;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    }
+    textarea {
+      width: 100%;
+      height: 100px;
+      padding: 10px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      resize: vertical;
+      font-family: monospace;
+    }
+    textarea[readonly] {
+      background-color: #f5f5f5;
+      color: #555;
+    }
+    button {
+      background-color: #74ebd5;
+      border: none;
+      color: #fff;
+      padding: 10px 20px;
+      margin-top: 10px;
+      border-radius: 4px;
+      cursor: pointer;
+      font-size: 1em;
+      transition: background-color 0.3s ease;
+    }
+    button:hover {
+      background-color: #67d8c1;
+    }
+    /* المربع الذي يظهر الحل */
+    .hidden-solution {
+      display: none;
+      background-color: #f9f9f9;
+      padding: 10px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      margin-top: 10px;
+    }
+    /* استجابة التصميم */
+    @media (max-width: 768px) {
+      header h1 {
+        font-size: 1em;
+      }
+      header .hamburger {
+        width: 25px;
+        height: 18px;
+      }
+      .drawer {
+        width: 200px;
+      }
+      .main-content.shifted {
+        transform: translateX(-200px);
+      }
+    }
+  </style>
+</head>
+<body onload="brython(); markActiveLink();">
+  <!-- رأس الصفحة -->
+  <header>
+    <div class="hamburger" onclick="toggleDrawer()">
+      <span></span>
+      <span></span>
+      <span></span>
+    </div>
+    <h1>سلسلة حل المشكلات (Problem Solving) الرمضانية</h1>
+  </header>
+  
+  <!-- القائمة الجانبية -->
+  <div id="drawer" class="drawer">
+    <a href="?day=1">اليوم الأول</a>
+    <a href="?day=2">اليوم الثاني</a>
+    <a href="?day=3">اليوم الثالث</a>
+    <a href="?day=4">اليوم الرابع</a>
+    <a href="?day=5">اليوم الخامس</a>
+    <a href="?day=6">اليوم السادس</a>
+    <a href="?day=7">اليوم السابع</a>
+    <a href="?day=8">اليوم الثامن</a>
+    <a href="?day=9">اليوم التاسع</a>
+    <a href="?day=10">اليوم العاشر</a>
+    <a href="?day=11">اليوم الحادي عشر</a>
+    <a href="?day=12">اليوم الثاني عشر</a>
+    <a href="?day=13">اليوم الثالث عشر</a>
+    <a href="?day=14">اليوم الرابع عشر</a>
+    <a href="?day=15">اليوم الخامس عشر</a>
+    <a href="?day=16">اليوم السادس عشر</a>
+    <a href="?day=17">اليوم السابع عشر</a>
+    <a href="?day=18">اليوم الثامن عشر</a>
+    <a href="?day=19">اليوم التاسع عشر</a>
+    <a href="?day=20">اليوم العشرون</a>
+    <a href="?day=21">اليوم الحادي والعشرون</a>
+    <a href="?day=22">اليوم الثاني والعشرون</a>
+    <a href="?day=23">اليوم الثالث والعشرون</a>
+    <a href="?day=24">اليوم الرابع والعشرون</a>
+    <a href="?day=25">اليوم الخامس والعشرون</a>
+    <a href="?day=26">اليوم السادس والعشرون</a>
+    <a href="?day=27">اليوم السابع والعشرون</a>
+    <a href="?day=28">اليوم الثامن والعشرون</a>
+    <a href="?day=29">اليوم التاسع والعشرون</a>
+    <a href="?day=30">اليوم الثلاثون</a>
+  </div>
+  
+  <!-- المحتوى الأساسي -->
+  <main class="main-content">
+    <!-- وصف التحدي -->
+    <div class="container">
+      <h2>وصف التحدي</h2>
+      <textarea id="challengeDescription" readonly></textarea>
+    </div>
+    
+    <!-- حل العميل -->
+    <div class="container">
+      <h2>حل العميل (بايثون)</h2>
+      <textarea id="clientSolution" placeholder="أدخل الحل هنا..."></textarea>
+      <button id="checkBtn">تحقق من الحل</button>
+      <!-- رسالة النتيجة -->
+      <div id="resultMessage"></div>
+    </div>
+    
+    <!-- الحل الصحيح المخفي -->
+    <div class="container">
+      <h2>الحل الصحيح (مخفي وغير قابل للتعديل)</h2>
+      <button onclick="toggleSolution()">إظهار/إخفاء الحل الصحيح</button>
+      <div id="expectedSolutionDiv" class="hidden-solution">
+        <textarea id="expectedSolution" readonly style="height: 569px;"></textarea>
+      </div>
+    </div>
+  </main>
+  
+  <script type="text/javascript">
+    // تبديل القائمة الجانبية
+    function toggleDrawer() {
+      var drawer = document.getElementById("drawer");
+      var mainContent = document.querySelector(".main-content");
+      drawer.classList.toggle("open");
+      mainContent.classList.toggle("shifted");
+    }
+    
+    // إظهار/إخفاء الحل الصحيح
+    function toggleSolution() {
+      var solDiv = document.getElementById("expectedSolutionDiv");
+      solDiv.style.display = (solDiv.style.display === "block") ? "none" : "block";
+    }
+    
+    // الحصول على معطيات الرابط
+    function getQueryParam(param) {
+      var urlParams = new URLSearchParams(window.location.search);
+      return urlParams.get(param);
+    }
+    
+    // تمييز الرابط النشط في القائمة
+    function markActiveLink() {
+      var day = getQueryParam("day") || "1";
+      var links = document.querySelectorAll("#drawer a");
+      links.forEach(function(link) {
+        if(link.getAttribute("href").indexOf("day=" + day) !== -1) {
+          link.classList.add("active");
+        } else {
+          link.classList.remove("active");
+        }
+      });
+    }
+    
+    // تحديات الأيام وحلولها
+    var challenges = {
+      "1": "قم بكتابة الدالة اسمها: prime_numbers تستقبل عددين، كلاهما عدد صحيح، ثم تقوم الدالة بإرجاع مصفوفة تحتوي على جميع الأرقام الأولية بين هذين الرقمين.",
+      "2": "قم بكتابة الدالة اسمها: remove_duplicate تستقبل مصفوفة من نوع integer، تقوم الدالة بحذف العناصر المتكررة من المصفوفة ثم تُعيد المصفوفة الجديدة.",
+      "3": "قم بكتابة الدالة اسمها: countdown تستقبل عدد صحيح، تقوم بالعد التنازلي من ذلك العدد بثلاث أرقام وصولاً إلى الصفر، ثم تُعيد مصفوفة من الأعداد الزوجية مرتبة تصاعدياً. إذا كان العدد المُمر أقل من أو يساوي 3، تُعيد [0].",
+      "4": "قم بكتابة الدالة اسمها: get_saudi_traditional_dance تأخذ اسم المنطقة وتُعيد اسم اللعبة التراثية الخاصة بها؛ وإذا لم تكن متوفرة تُعيد \"لعبة غير معروفة\".",
+      "5": "قم بكتابة الدالة اسمها: array_root تستقبل مصفوفة من نوع double، وتقوم بحساب الجذر التربيعي لكل عنصر ثم تُعيد النتيجة في مصفوفة جديدة.",
+      "6": "قم بكتابة الدالة اسمها: isPalindrome تأخذ نصاً (string) وتُعيد true إذا كانت الجملة Palindrome و false إذا لم تكن كذلك.",
+      "7": "قم بكتابة الدالة اسمها: repetitions تستقبل نصاً (string) وتُعيد العدد الذي يمثل أطول تكرار متتالي لحرف في النص.",
+      "8": "قم بكتابة الدالة اسمها: factorial تستقبل عدد صحيح وتُعيد مضروب العدد (factorial).",
+      "9": "قم بكتابة الدالة اسمها: str_len_comparison تستقبل مصفوفة من القيم النصية، وتقارن بين طول الأحرف في جميع النصوص. تُعيد true إذا كان طول كل النصوص متطابقاً، و false إذا لم يكن كذلك. إذا كانت المصفوفة فارغة أو تحتوي على عنصر واحد فقط تُعيد false.",
+      "30": "تحدي اليوم الثلاثون: قم بكتابة الدالة اسمها: solve تأخذ نصاً وتُعيد النص معكوساً."
+    };
+    
+    var solutions = {
+      "1": "# الحل\n\ndef is_prime(n):\n    if n < 2:\n        return False\n    for i in range(2, int(n ** 0.5) + 1):\n        if n % i == 0:\n            return False\n    return True\n\ndef prime_numbers(a, b):\n    if a > b:\n        a, b = b, a  # التأكد أن a هو الأصغر\n    primes = []\n    for num in range(a, b + 1):\n        if is_prime(num):\n            primes.append(num)\n    return primes",
+      "2": "# الحل\n\ndef remove_duplicate(arr):\n    lst = []\n    for i in arr:\n        if i not in lst:\n            lst.append(i)\n    return lst",
+      "3": "# الحل\n\ndef countdown(num):\n    even_nums = []\n    for i in range(num, 0, -3):\n        if num == i:\n            continue\n        if i % 2 == 0:\n            even_nums.append(i)\n    if not even_nums:\n        return [0]\n    else:\n        return sorted(even_nums)",
+      "4": "# الحل\n\ndef get_saudi_traditional_dance(region):\n    if region == \"الشمالية\":\n        result = \"الدحة\"\n    elif region == \"الوسطى\":\n        result = \"العرضة النجدية\"\n    elif region == \"الجنوبية\":\n        result = \"الخطوة الجنوبية\"\n    elif region == \"الشرقية\":\n        result = \"الفجري\"\n    else:\n        result = \"لعبة غير معروفة\"\n    return result",
+      "5": "# الحل\n\ndef array_root(arr):\n    new = []\n    for i in arr:\n        n = i ** 0.5\n        new.append(n)\n    return new",
+      "6": "# الحل\n\ndef isPalindrome(s):\n    s = s.lower()\n    filtered_s = ''.join(char for char in s if char.isalnum())\n    return filtered_s == filtered_s[::-1]",
+      "7": "# الحل\n\ndef repetitions(s):\n    max_count = 0\n    current_count = 0\n    previous_char = ''\n    for char in s:\n        if char == previous_char:\n            current_count += 1\n        else:\n            current_count = 1\n        previous_char = char\n        max_count = max(max_count, current_count)\n    return max_count",
+      "8": "# الحل\n\ndef factorial(number):\n    the_factorial = 1\n    while number > 0:\n        the_factorial *= number\n        number -= 1\n    return the_factorial",
+      "9": "# الحل\n\ndef str_len_comparison(words):\n    if len(words) <= 1:\n        return False\n    else:\n        for i in words:\n            if len(i) != len(words[0]):\n                return False\n        return True",
+      "30": "# الحل\n\ndef solve(s):\n    return s[::-1]"
+    };
+    
+    // الحصول على اليوم المطلوب من الرابط
+    var day = getQueryParam("day") || "1";
+    
+    // تعيين وصف التحدي والحل الصحيح حسب اليوم
+    if(challenges[day]) {
+      document.getElementById("challengeDescription").value = challenges[day];
+    } else {
+      document.getElementById("challengeDescription").value = "تحدي غير متوفر لهذا اليوم.";
+    }
+    
+    if(solutions[day]) {
+      document.getElementById("expectedSolution").value = solutions[day];
+    } else {
+      document.getElementById("expectedSolution").value = "# لا يوجد حل مخفي لهذا اليوم.";
+    }
+    
+    // تمييز الرابط النشط في القائمة
+    markActiveLink();
+    
+    function markActiveLink() {
+      var links = document.querySelectorAll("#drawer a");
+      links.forEach(function(link) {
+        if(link.getAttribute("href").indexOf("day=" + day) !== -1) {
+          link.classList.add("active");
+        } else {
+          link.classList.remove("active");
+        }
+      });
+    }
+  </script>
+  
+  <!-- سكربت بايثون للتحقق من الحل باستخدام Brython -->
+  <script type="text/python">
+    from browser import document
+    
+    # قاموس يربط رقم اليوم باسم الدالة المتوقعة
+    expectedFunctionNames = {
+        "1": "prime_numbers",
+        "2": "remove_duplicate",
+        "3": "countdown",
+        "4": "get_saudi_traditional_dance",
+        "5": "array_root",
+        "6": "isPalindrome",
+        "7": "repetitions",
+        "8": "factorial",
+        "9": "str_len_comparison",
+        "30": "solve"
+    }
+    
+    # يمكن أيضًا إعداد مدخلات اختبار لكل تحدي إذا لزم الأمر
+    testInputs = {
+        "1": (1, 10),  # مثال: prime_numbers(1,10)
+        "2": ([1,2,2,3,4,3,5],),  # remove_duplicate([1,2,2,3,4,3,5])
+        "3": (10,),  # countdown(10)
+        "4": ("الوسطى",),  # get_saudi_traditional_dance("الوسطى")
+        "5": ([4.0, 9.0, 16.0],),  # array_root([4.0,9.0,16.0])
+        "6": ("Madam",),  # isPalindrome("Madam")
+        "7": ("MOHAMMMED",),  # repetitions("MOHAMMMED")
+        "8": (5,),  # factorial(5)
+        "9": (["abc", "def"],),  # str_len_comparison(["abc","def"])
+        "30": ("hello",)  # solve("hello")
+    }
+    
+    # القيمة المتوقعة لكل تحدي من خلال تنفيذ الحل الصحيح
+    expectedResults = {}
+    # ننفذ الحل الصحيح ونضع النتيجة في expectedResults لكل تحدي (إذا أمكن)
+    try:
+        expected_namespace = {}
+        exec(document["expectedSolution"].value, expected_namespace)
+        expected_func_name = expectedFunctionNames.get(document["challengeDescription"].value.split("اسمها:")[1].split()[0].strip(), None)
+    except Exception as e:
+        expected_func_name = None
+    
+    def show_result(msg, status):
+        if status == "success":
+            document["resultMessage"].html = f'<div class="result success">{msg}</div>'
+        else:
+            document["resultMessage"].html = f'<div class="result error">{msg}</div>'
+    
+    def check_solution(event):
+        user_code = document["clientSolution"].value
+        expected_code = document["expectedSolution"].value
+        day = document.location.search.split("day=")[1] if "day=" in document.location.search else "1"
+        func_name = expectedFunctionNames.get(day, None)
+        if func_name is None:
+            show_result("لا يوجد دالة متوقعة لهذا اليوم.", "error")
+            return
+        try:
+            expected_namespace = {}
+            exec(expected_code, expected_namespace)
+            if func_name not in expected_namespace:
+                show_result("الحل الصحيح غير معرف بشكل صحيح في الحل المخفي.", "error")
+                return
+            expected_func = expected_namespace[func_name]
+            # احصل على مدخلات الاختبار المناسبة
+            test_input = testInputs.get(day, ())
+            expected_result = expected_func(*test_input)
+        except Exception as e:
+            show_result("خطأ في تنفيذ الحل الصحيح المخفي: " + str(e), "error")
+            return
 
-def prime_numbers(a, b):
-    if a > b:
-        a, b = b, a  # التأكد أن a هو الأصغر
-    primes = []
-    for num in range(a, b + 1):
-        if is_prime(num):
-            primes.append(num)
-    return primes
+        try:
+            user_namespace = {}
+            exec(user_code, user_namespace)
+            if func_name not in user_namespace:
+                show_result("لم يتم تعريف الدالة المطلوبة في الحل الخاص بك.", "error")
+                return
+            user_func = user_namespace[func_name]
+            user_result = user_func(*test_input)
+        except Exception as e:
+            show_result("خطأ في تنفيذ الحل الخاص بك: " + str(e), "error")
+            return
+
+        if user_result == expected_result:
+            show_result("الحل صحيح!", "success")
+        else:
+            show_result("الحل غير صحيح. جرب مرة أخرى.", "error")
+    
+    document["checkBtn"].bind("click", check_solution)
+  </script>
+</body>
+</html>
