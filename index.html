@@ -274,6 +274,7 @@
       "8": "قم بكتابة الدالة اسمها: factorial تستقبل عدد صحيح وتُعيد مضروب العدد (factorial).",
       "9": "قم بكتابة الدالة اسمها: str_len_comparison تستقبل مصفوفة من القيم النصية، وتقارن بين طول الأحرف في جميع النصوص. تُعيد true إذا كان طول كل النصوص متطابقاً، و false إذا لم يكن كذلك. إذا كانت المصفوفة فارغة أو تحتوي على عنصر واحد فقط تُعيد false.",
       "10": "قم بكتابة دالة اسمها: trailingZeroes لحساب عدد الأصفار المترادفة في نهاية ناتج حساب n! (المضاعف):\nالمدخل: عدد صحيح n\nالمطلوب: إرجاع عدد الأصفار المترادفة في نهاية n!\nالفكرة: حساب عدد عوامل 5 في n! باستخدام القسمة المتكررة على 5\nمثال:\nالمدخل: 25\nالمخرج: 6 (لأن 25//5 = 5، 5//5 = 1، 5+1 = 6)",
+      "11": "قم بكتابة دالة اسمها: most_frequent_element تستقبل مصفوفة array من نوع integer ، تقوم الـدالة most_frequent_element بإرجاع أكثر القيم تكرارا في المصفوفة",
       "30": "تحدي اليوم الثلاثون: قم بكتابة الدالة اسمها: solve تأخذ نصاً وتُعيد النص معكوساً."
     };
     
@@ -289,6 +290,7 @@
       "8": [[5], [7], [1], [0]],
       "9": [[["abc", "def"]], [["abc", "defg"]], [["hello", "world"]], [["a", "b", "c"]]],
       "10": [[25], [10], [100], [1]],
+      "11": [[13, 2, 1, 2, 10, 2, 1, 1, 2, 2], [1, 2, 3, 4, 1, 5, -5, -5, -5, -5, -5, 6],[1, 2, 3, 3, 3, 3],[0, 5, 6, 2, 1, 5]],
       "30": [["hello"], ["OpenAI"], ["racecar"], [""]]
     };
 
@@ -304,6 +306,7 @@
       "8": "# الحل\n\ndef factorial(number):\n    the_factorial = 1\n    while number > 0:\n        the_factorial *= number\n        number -= 1\n    return the_factorial",
       "9": "# الحل\n\ndef str_len_comparison(words):\n    if len(words) <= 1:\n        return False\n    else:\n        for i in words:\n            if len(i) != len(words[0]):\n                return False\n        return True",
       "10": "# الحل\n\ndef trailingZeroes(n):\n    sum_of_all_result = 0\n    m = n // 5\n    sum_of_all_result += m\n    while m >= 5:\n        m = m // 5\n        sum_of_all_result += m\n    return sum_of_all_result",
+      "11": "#الحل\n\ndef most_frequent_element(arr):\n    counts = {}\n    for i in arr:\n        if i not in counts.keys():\n            counts[i] = 1\n        else:\n            counts[i] += 1\n    top = max(counts.values())\n    for i in counts.keys():\n        if counts[i] == top :\n            return i",
       "30": "# الحل\n\ndef solve(s):\n    return s[::-1]"
     };
     
@@ -360,6 +363,7 @@
         "8": "factorial",
         "9": "str_len_comparison",
         "10": "trailingZeroes",
+        "11": "most_frequent_element",
         "30": "solve"
     }
     
@@ -375,6 +379,7 @@
         "8": [(5,), (7,), (1,), (0,)],
         "9": [ (["abc", "def"],), (["abc", "defg"],), (["hello", "world"],), (["a", "b", "c"],) ],
         "10": [ (25,), (10,), (100,), (1,) ],
+        "11": [([13,2,1,2,10,2,1,1,2,2],), ([1,2,3,4,1,5,-5,-5,-5,-5,-5,6],),([1,2,3,3,3,3],),([0,5,6,2,1,5],)],
         "30": [ ( "hello",), ( "OpenAI",), ( "racecar",), ( "",) ]
     }
     
