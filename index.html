@@ -277,6 +277,7 @@
       "11": "قم بكتابة دالة اسمها: most_frequent_element تستقبل مصفوفة array من نوع integer ، تقوم الـدالة most_frequent_element بإرجاع أكثر القيم تكرارا في المصفوفة",
       "12": "قم بكتابة دالة اسمها: missingLetter تستقبل قيمة نصية من نوع String , تقوم الدالة missingLetter بالبحث عن الحرف المفقود حسب الترتيب الأبجدي لأول حرف مدخل في النص , ثم قم بارجاع الحرف المفقود من نوع String و في حالة عدم فقدان حرف قم بارجاع No Missing Letter .",
       "13": "قم بكتابة دالة اسمها: find_prefix  تستقبل قيمة نصية String تحتوي على جزء من بداية كلمة، ومصفوفة Array تحتوي على عدة كلمات. تقوم الدالة بإرجاع مصفوفة تحتوي على الكلمات التي تبدأ بنفس النص الذي تم تمريره. إن لم تحتوي المصفوفة على شيء مطابق، فقم بإرجاع مصفوفة فيها القيمة النصيّة 'No matches'"
+      "14": "قم بكتابة دالة اسمها: sortByLength تستقبل قيمة نصية من نوع string تقوم الـدالة sortByLength بترتيب الكلمات حسب طولها من الأقصر للأطول وفي حال كانت هناك كلمتين بنفس الطول يكون الترتيب ابجدي ثم تقوم الدالة بإرجاع النتيجة من نوع string",
 
     };
     
@@ -294,7 +295,10 @@
       "10": [[25], [10], [100], [1]],
       "11": [[13, 2, 1, 2, 10, 2, 1, 1, 2, 2], [1, 2, 3, 4, 1, 5, -5, -5, -5, -5, -5, 6],[1, 2, 3, 3, 3, 3],[0, 5, 6, 2, 1, 5]],
       "12": [['rsuv'],['ghijk'],['vwyz'],['abcd'],['bcdf'],['cabde']],
-      "13": [[['Nouf', 'Abdullah'],'Gh'],[['Reassemble', 'Remainder', 'Room', 'Receive'],'re'],[['Compared', 'Coding', 'Career', 'Coderhub', 'Cold', 'Call'],'co'],[['Save', 'Saudi', 'Satr', 'Send', 'Salt', 'Super', 'Sample'],'sa'],[['Apple', 'Application', 'April', 'Banana', 'Apex'],'ap']]
+      "13": [[['Nouf', 'Abdullah'],'Gh'],[['Reassemble', 'Remainder', 'Room', 'Receive'],'re'],[['Compared', 'Coding', 'Career', 'Coderhub', 'Cold', 'Call'],'co'],[['Save', 'Saudi', 'Satr', 'Send', 'Salt', 'Super', 'Sample'],'sa'],[['Apple', 'Application', 'April', 'Banana', 'Apex'],'ap']],
+      "14": [['Enjoy the little things'],['Life is beautiful'],['Follow your dreams'],['Have a wonderful day'],['I see you'],['Get in the boat'],['Do you speak English']],
+
+
     };
 
     
@@ -312,6 +316,7 @@
       "11": "#الحل\n\ndef most_frequent_element(arr):\n    counts = {}\n    for i in arr:\n        if i not in counts.keys():\n            counts[i] = 1\n        else:\n            counts[i] += 1\n    top = max(counts.values())\n    for i in counts.keys():\n        if counts[i] == top :\n            return i",
       "12": "#الحل\n\ndef missingLetter(txt):\n    all = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j','k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't','u', 'v', 'w', 'x', 'y', 'z']\n    for i in range(len(all)):\n        if all[i] == txt[0]:\n            for n in range(len(txt)):\n                if txt[n] != all[i]:\n                    return all[i]\n                i += 1\n            return 'No Missing Letter'",
       "13": "#الحل\n\ndef find_prefix(words,text):\n    lista = []\n    for n in words :\n        i = n.lower()\n        if text.lower() in i[0:len(text)+1:]:\n            lista.append(n)\n    if not lista:\n        lista.append('No matches found')\n    return lista",
+      "14": "#الحل\n\ndef sortByLength(txt):\n    def filter_index(index):\n        return index['len']\n    length = []\n    for word in txt.split() :\n        length.append({\n            'word' : word,\n            'len' : len(word)\n        })\n    new = sorted(length, key= filter_index)\n    last = []\n    for i in new : \n        last.append(i['word'])\n    return ' '.join(last)",
 
     };
     
@@ -370,7 +375,9 @@
         "10": "trailingZeroes",
         "11": "most_frequent_element",
         "12": "missingLetter",
-        "13": "find_prefix"
+        "13": "find_prefix",
+        "14": "sortByLength",
+
         
     }
     
@@ -389,6 +396,7 @@
         "11": [([13,2,1,2,10,2,1,1,2,2],), ([1,2,3,4,1,5,-5,-5,-5,-5,-5,6],),([1,2,3,3,3,3],),([0,5,6,2,1,5],)],
         "12": [('rsuv',),('ghijk',),('vwyz',),('abcd',),('bcdf',),('cabde',)],
         "13": [(['Nouf', 'Abdullah'], 'Gh'),(['Reassemble', 'Remainder', 'Room', 'Receive'], 're'),(['Compared', 'Coding', 'Career', 'Coderhub', 'Cold', 'Call'], 'co'),(['Save', 'Saudi', 'Satr', 'Send', 'Salt', 'Super', 'Sample'], 'sa'),(['Apple', 'Application', 'April', 'Banana', 'Apex'], 'ap')]
+        "14": [('Enjoy the little things',),('Life is beautiful',),('Follow your dreams',),('Have a wonderful day',),('I see you',),('Get in the boat',),('Do you speak English',)],
 
 
     }
