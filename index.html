@@ -280,6 +280,7 @@
       "14": "قم بكتابة دالة اسمها: sortByLength تستقبل قيمة نصية من نوع string تقوم الـدالة sortByLength بترتيب الكلمات حسب طولها من الأقصر للأطول وفي حال كانت هناك كلمتين بنفس الطول يكون الترتيب ابجدي ثم تقوم الدالة بإرجاع النتيجة من نوع string",
       "15": "قم بكتابة دالة اسمها: unique تستقبل مصفوفة من نوع integer تقوم الدالةـ unique بالبحث عن الأرقام الفريدة في المصفوفة وثم تقوم بإرجاعها داخل مصفوفة جديدة.",
       "16": "قُم بكتابة دالة اسمها: similarOrdered تستقبل قيمتين نصية. تقوم الدالة بترتيب القيمتين النصية أبجدياً وإرجاع أطول حد تشابه بين القيمتين النصية . يتم أيضاً إزالة الأحرف المكررة في حد التشابه والإكتفاء بحرف واحد. في حال لم يُوجد تشابه بين القيمتين النصية، سيتم إرجاع القيمة No matches found .",
+      "17": "قم بكتابة دالة اسمها: date_formating تستقبل متغير من نوع string بالشكل yyyy-mm-dd ، ثم تقوم الدالة بإرجاع النتيجة من نوع string بعد القيام بتغير الشكل الى dd-mm-yyyy.",
 
 
     };
@@ -302,7 +303,7 @@
       "14": [['Enjoy the little things'],['Life is beautiful'],['Follow your dreams'],['Have a wonderful day'],['I see you'],['Get in the boat'],['Do you speak English']],
       "15": [[1, 1, 1, 2, 1, 1],[2, 4, -2],[2, 3, 2, 6, 2],[3, -4, 3, 3, 3],[4, 4, 5, 4],[10, 20, 10, 10, 20, 30],[99, 1, 1, 1],[0, 7, 7, 7, 0, 0, 9],[100],[2, 2, 3, 3, 4, 4, 5]] ,
       "16": [['washing','waiting'],['me','meet'],['Reem','Nouf'],['abcdefggghi','abcdefghirr'],['programming','algorithm'],['developer','people'],['computer','science'],['apple','banana']],
-
+      "17": [['2020-01-01'],['2021-01-01'],['1954-09-01'],['2000-12-07'],['1999-05-15'],['1980-07-23'],['1963-08-19'],['2022-09-17']],
 
     };
 
@@ -324,6 +325,7 @@
       "14": "#الحل\n\ndef sortByLength(txt):\n    def filter_index(index):\n        return index['len']\n    length = []\n    for word in txt.split() :\n        length.append({\n            'word' : word,\n            'len' : len(word)\n        })\n    new = sorted(length, key= filter_index)\n    last = []\n    for i in new : \n        last.append(i['word'])\n    return ' '.join(last)",
       "15": "#الحل\n\ndef unique(arr):\n    lista = []\n    count = {}\n    for i in arr:\n        if i not in count:\n            count[i] = 1\n        else:\n            count[i] += 1\n    mininmum = min(count.values())\n    for i in count:\n        if count[i] == mininmum:\n            lista.append(i)\n    return lista",
       "16": "#الحل\n\ndef similarOrdered(word1,word2):\n    def process(word):\n        '''\n        الداله دي بترجع الكلمه بعد ما تظبطها من تحويل لحروف صغيره و ترتيبها ابجديا و مسح للتكرار \n        '''\n        return ''.join(sorted(set(word.lower())))\n\n\n    s1 = process(word1)\n    s2 = process(word2)\n\n\n    max_sub = ''\n    for i in range(len(s1)):\n        for j in range(i + 1, len(s1) + 1):\n            candidate = s1[i:j]\n            if candidate in s2:\n                if len(candidate) > len(max_sub):\n                    max_sub = candidate\n    return max_sub if max_sub else 'No matches found' ",
+      "17": "#الحل\n\ndef date_formating(date):\n    day = date[8:]\n    month = date[5:7]\n    year = date[0:4]\n    return f'{day}-{month}-{year}'",
 
 
     };
@@ -387,6 +389,7 @@
         "14": "sortByLength",
         "15": "unique",
         "16": "similarOrdered",
+        "17": "date_formating",
 
         
     }
@@ -409,7 +412,7 @@
         "14": [('Enjoy the little things',),('Life is beautiful',),('Follow your dreams',),('Have a wonderful day',),('I see you',),('Get in the boat',),('Do you speak English',)],
         "15": [([1, 1, 1, 2, 1, 1],),([2, 4, -2],),([2, 3, 2, 6, 2],),([3, -4, 3, 3, 3],),([4, 4, 5, 4],),([99, 1, 1, 1],),([10, 20, 10, 10, 20, 30],),([0, 7, 7, 7, 0, 0, 9],),([100],),([2, 2, 3, 3, 4, 4, 5],)] ,
         "16": [('washing','waiting'),('me','meet'),('Reem','Nouf'),('abcdefggghi','abcdefghirr'),('developer','people'),('programming','algorithm'),('computer','science'),('apple','banana')],
-
+        "17": [('2020-01-01',),('2021-01-01',),('1954-09-01',),('1999-05-15',),('2000-12-07',),('1980-07-23',),('1963-08-19',),('2022-09-17',)],
         
     }
     
