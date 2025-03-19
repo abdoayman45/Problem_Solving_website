@@ -282,6 +282,7 @@
       "16": "قُم بكتابة دالة اسمها: similarOrdered تستقبل قيمتين نصية. تقوم الدالة بترتيب القيمتين النصية أبجدياً وإرجاع أطول حد تشابه بين القيمتين النصية . يتم أيضاً إزالة الأحرف المكررة في حد التشابه والإكتفاء بحرف واحد. في حال لم يُوجد تشابه بين القيمتين النصية، سيتم إرجاع القيمة No matches found .",
       "17": "قم بكتابة دالة اسمها: date_formating تستقبل متغير من نوع string بالشكل yyyy-mm-dd ، ثم تقوم الدالة بإرجاع النتيجة من نوع string بعد القيام بتغير الشكل الى dd-mm-yyyy.",
       "18": "قم بكتابة دالة اسمها: convert_number_format التي تستقبل متغير من نوع string يحتوي على رقم إما بنظام العد الست عشري (hexadecimal) أو النظام العشري (decimal). الدالة يجب أن تقوم بتحديد نوع الرقم (هل هو عشري أم ست عشري) ثم تعكس تنسيقه. إذا كان الرقم بنظام العد الست عشري، تقوم بتحويله إلى نظام العد العشري، وإذا كان الرقم بنظام العد العشري، تقوم بتحويله إلى نظام العد الست عشري وتقوم الداله بارجاع القيمه المعكوسة.",
+      "19": "قم بكتابة دالة اسمها: longestAlternatingSubstring تستقبل قيمة نصية من نوع string. تقوم هذه الدالة بإيجاد أطول سلسلة فرعية بالتناوب بين أعداد فردية وأعداد زوجية. والمعنى من ذلك أن يجب ان تكون السلسلة مكونة من عدد زوجي ويتليه عدد فردي.. ولا يشترط في ذلك ان تبدأ السلسلة بعدد زوجي. فمن الممكن أن تبدأ بعدد زوجي أو فردي.",
 
 
     };
@@ -306,6 +307,7 @@
       "16": [['washing','waiting'],['me','meet'],['Reem','Nouf'],['abcdefggghi','abcdefghirr'],['programming','algorithm'],['developer','people'],['computer','science'],['apple','banana']],
       "17": [['2020-01-01'],['2021-01-01'],['1954-09-01'],['2000-12-07'],['1999-05-15'],['1980-07-23'],['1963-08-19'],['2022-09-17']],
       "18": [['255'],['a1'],['1000'],['3f'],['123'],['1a3'],['abc'],['0']],
+      "19": [['2105787220351146'],['1263654081858902'],['334090830025543'],['6769423178839463'],['9876543210'],['111223344556677889900'],['2468013579'],['1357924680']],
 
     };
 
@@ -329,6 +331,7 @@
       "16": "#الحل\n\ndef similarOrdered(word1,word2):\n    def process(word):\n        '''\n        الداله دي بترجع الكلمه بعد ما تظبطها من تحويل لحروف صغيره و ترتيبها ابجديا و مسح للتكرار \n        '''\n        return ''.join(sorted(set(word.lower())))\n\n\n    s1 = process(word1)\n    s2 = process(word2)\n\n\n    max_sub = ''\n    for i in range(len(s1)):\n        for j in range(i + 1, len(s1) + 1):\n            candidate = s1[i:j]\n            if candidate in s2:\n                if len(candidate) > len(max_sub):\n                    max_sub = candidate\n    return max_sub if max_sub else 'No matches found' ",
       "17": "#الحل\n\ndef date_formating(date):\n    day = date[8:]\n    month = date[5:7]\n    year = date[0:4]\n    return f'{day}-{month}-{year}'",
       "18": "#الحل\n\ndef convert_number_format(number):\n\n    if all(c in '0123456789' for c in number):\n        return hex(int(number))[2:]\n\n    else:\n        return str(int(number, 16))",
+      "19": "#الحل\n\ndef longestAlternatingSubstring(digits):\n    max_substring = ''\n    current_substring = digits[0]\n    for i in range(1, len(digits)):\n        if (int(digits[i-1]) % 2 == 0 and int(digits[i]) % 2 == 1) or (int(digits[i-1]) % 2 == 1 and int(digits[i]) % 2 == 0):\n            current_substring += digits[i]\n        else:\n            if len(current_substring) > len(max_substring):\n                max_substring = current_substring\n            current_substring = digits[i]\n    if len(current_substring) > len(max_substring):\n        max_substring = current_substring\n    return max_substring",
 
 
     };
@@ -394,7 +397,7 @@
         "16": "similarOrdered",
         "17": "date_formating",
         "18": "convert_number_format",
-
+        "19": "longestAlternatingSubstring",
 
         
     }
@@ -419,7 +422,10 @@
         "16": [('washing','waiting'),('me','meet'),('Reem','Nouf'),('abcdefggghi','abcdefghirr'),('developer','people'),('programming','algorithm'),('computer','science'),('apple','banana')],
         "17": [('2020-01-01',),('2021-01-01',),('1954-09-01',),('1999-05-15',),('2000-12-07',),('1980-07-23',),('1963-08-19',),('2022-09-17',)],
         "18": [('255',),('a1',),('1000',),('3f',),('123',),('1a3',),('abc',),('0',)],
-    }
+        "19": [('2105787220351146',),('1263654081858902',),('334090830025543',),('6769423178839463',),('9876543210',),('111223344556677889900',),('2468013579',),('1357924680',)],
+
+
+      }
     
     def check_solution(event):
         user_code = document["clientSolution"].value
