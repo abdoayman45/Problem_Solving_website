@@ -285,6 +285,7 @@
       "19": "قم بكتابة دالة اسمها: longestAlternatingSubstring تستقبل قيمة نصية من نوع string. تقوم هذه الدالة بإيجاد أطول سلسلة فرعية بالتناوب بين أعداد فردية وأعداد زوجية. والمعنى من ذلك أن يجب ان تكون السلسلة مكونة من عدد زوجي ويتليه عدد فردي.. ولا يشترط في ذلك ان تبدأ السلسلة بعدد زوجي. فمن الممكن أن تبدأ بعدد زوجي أو فردي.",
       "20": "قم بكتابة دالة اسمها: longestArithmeticSubstring تستقبل مصفوفة من الأعداد الصحيحة من نوع list[int]. تقوم هذه الدالة بإيجاد أطول سلسلة فرعية تكون متتالية وبفارق ثابت (متتابعة حسابية).\nبمعنى أن الفارق بين كل عددين متتاليين في السلسلة الفرعية يجب أن يكون ثابتًا.\nإذا كانت القائمة خالية أو تحتوي على عنصر واحد فقط، يمكن إعادة 0 كطول أطول سلسلة.\nإذا وُجدت عدة سلاسل فرعية متساوية في الطول، يمكنك إعادة أي منها.",
       "21": "قم بكتابة دالة اسمها: arrowDuplicates تستقبل متغير من نوع string يتكون من حروف، تقوم الدالة باستبدال الاحرف باحد الرمزين (>) و(<) بحيث اذا كان الحرف مكرر في الكلمة يتحول الى > واذا كان الحرف لا يتكرر يتحول الى < \nحيث النتيجة للدالة تكون من نوع string",
+      "22": "قم بكتابة دالة اسمها: longestPrimeDiffSubarray تستقبل مصفوفة arr من الأعداد الصحيحة من نوع list[int]. تقوم الدالة بإيجاد أطول سلسلة فرعية متجاورة (subarray) بحيث يكون الفرق المطلق بين كل عنصرين متتاليين عددًا أوليًا.\nملحوظات :\nإذا كانت القائمة الداخله فارغة تعيد الدالة قائمة فارغة.\nإذا كانت القائمة تحتوي على عنصر واحد فقط يمكن إعادة القائمة كما هي.\nإذا وجدت أكثر من سلسلة فرعية بنفس الطول الأقصى تعيد الدالة أول سلسلة فرعية تظهر في القائمة.\nيُمكن اعتبار سلسلتين مكونتين من عنصرين صحيحيتين إذا تحققت العلاقة بينهما.",
 
 
     };
@@ -312,8 +313,11 @@
       "19": [['2105787220351146'],['1263654081858902'],['334090830025543'],['6769423178839463'],['9876543210'],['111223344556677889900'],['2468013579'],['1357924680']],
       "20": [[[1, 3, 5, 7, 9, 2, 4, 6, 8]],[[10, 7, 4, 1, -2, 0, 2, 4, 6]],[[5, 5, 5, 5, 5]],[[1, 2, 4, 7, 10, 13]],[[10, 20, 30, 15, 25, 35, 45, 60]],[[1]],[[-5, -2, 1, 4, 7, 10]],[[1, 3, 6, 10, 15]],[[1, 3, 5, 7, 2, 4, 6, 8]],[[7, 5, 2, 10, 12, 6]],[[-10, -5, 0, 5, 10]],[[1, 5, 10, 5, 1, 6, 11, 16]]],
       "21": [['Hi'],['Bb'],['SAFCSP'],['Java'],['aabbcc'],['abcdef'],['hello'],['AaBb'],['zzzzz'],['aaabaaa']],
+      "22": [[[17, 19, 23, 28, 31, 37]],[[2, 3, 5, 7, 11, 13, 17]],[[30, 31, 33, 37, 42, 47, 53]],[[10, 13, 16, 19, 22, 25, 28]],[[8, 14, 20, 26, 32, 38]],[[41, 44, 47, 50, 53, 56]],[[1, 3, 6, 9, 15, 21]],[[29, 31, 34, 38, 41, 47]],[[50, 53, 56, 60, 67, 72]],[[1, 4, 7, 10, 14, 18, 23]]],
+
 
     };
+
 
     
     var solutions = {
@@ -338,6 +342,7 @@
       "19": "#الحل\n\ndef longestAlternatingSubstring(digits):\n    max_substring = ''\n    current_substring = digits[0]\n    for i in range(1, len(digits)):\n        if (int(digits[i-1]) % 2 == 0 and int(digits[i]) % 2 == 1) or (int(digits[i-1]) % 2 == 1 and int(digits[i]) % 2 == 0):\n            current_substring += digits[i]\n        else:\n            if len(current_substring) > len(max_substring):\n                max_substring = current_substring\n            current_substring = digits[i]\n    if len(current_substring) > len(max_substring):\n        max_substring = current_substring\n    return max_substring",
       "20": "#الحل\n\ndef longestArithmeticSubstring(nums):\n    if len(nums) < 2:\n        return []\n    max_length = 0\n    current_length = 2\n    common_diff = nums[1] - nums[0]\n    start_index = 0\n    best_subarray = []\n    for i in range(2, len(nums)):\n        if nums[i] - nums[i - 1] == common_diff:\n            current_length += 1\n        else:\n            if current_length > max_length:\n                max_length = current_length\n                best_subarray = nums[start_index:i]\n            # لا نضيف السلسلة إذا كان طولها نفس طول السلسلة السابقة\n            common_diff = nums[i] - nums[i - 1]\n            current_length = 2\n            start_index = i - 1\n    if current_length > max_length:\n        best_subarray = nums[start_index:]\n    return best_subarray",
       "21": "#الحل\n\ndef arrowDuplicates(word):\n    new_word = word.lower()\n    for i in range(len(new_word)):\n        if i != 0:\n            if (new_word[i] in new_word[i+1:]) or (new_word[i] in new_word[i-1::-1]):\n                new_word = new_word.replace(new_word[i],'<')\n            else:\n                new_word = new_word.replace(new_word[i],'>')\n        else:\n            if (new_word[i] in new_word[i+1:]):\n                new_word = new_word.replace(new_word[i],'<')\n            else:\n                new_word = new_word.replace(new_word[i],'>')\n    return new_word",
+      "22": "#الحل\n\ndef is_prime(n):\n    ''' دالة تتحقق مما إذا كان العدد n أوليًا '''\n    if n < 2:\n        return False\n    for i in range(2, int(n ** 0.5) + 1):\n        if n % i == 0:\n            return False\n    return True\ndef longestPrimeDiffSubarray(arr):\n    ''' دالة لإيجاد أطول سلسلة فرعية يكون الفرق بين عناصرها عددًا أوليًا اللي هي دالة الحل يعني'''\n    if not arr:\n        return []\n    max_subarray = []\n    current_subarray = [arr[0]]\n    for i in range(1, len(arr)):\n        # تحقق من كون الفرق بين العنصر الحالي والسابقة أوليا\n        if is_prime(abs(arr[i] - arr[i - 1])):\n            current_subarray.append(arr[i])\n        else:\n            if len(current_subarray) > len(max_subarray):\n                max_subarray = current_subarray[:]  # حفظ نسخة من السلسلة الحالية\n            current_subarray = [arr[i]]\n    if len(current_subarray) > len(max_subarray):\n        max_subarray = current_subarray\n    return max_subarray",
 
 
     };
@@ -406,7 +411,7 @@
         "19": "longestAlternatingSubstring",
         "20": "longestArithmeticSubstring",
         "21": "arrowDuplicates",
-
+        "22": "longestPrimeDiffSubarray",
 
     }
     
@@ -433,6 +438,8 @@
         "19": [('2105787220351146',),('1263654081858902',),('334090830025543',),('6769423178839463',),('9876543210',),('111223344556677889900',),('2468013579',),('1357924680',)],
         "20": [([1, 3, 5, 7, 9, 2, 4, 6, 8],),([10, 7, 4, 1, -2, 0, 2, 4, 6],),([5, 5, 5, 5, 5],),([1, 2, 4, 7, 10, 13],),([10, 20, 30, 15, 25, 35, 45, 60],),([1],),([-5, -2, 1, 4, 7, 10],),([1, 3, 6, 10, 15],),([7, 5, 2, 10, 12, 6],),([1, 3, 5, 7, 2, 4, 6, 8],),([-10, -5, 0, 5, 10],),([1, 5, 10, 5, 1, 6, 11, 16],)],
         "21": [('Hi',),('Bb',),('SAFCSP',),('Java',),('aabbcc',),('abcdef',),('hello',),('AaBb',),('zzzzz',),('aaabaaa',)],
+        "22": [([17, 19, 23, 28, 31, 37],),([2, 3, 5, 7, 11, 13, 17],),([30, 31, 33, 37, 42, 47, 53],),([10, 13, 16, 19, 22, 25, 28],),([8, 14, 20, 26, 32, 38],),([41, 44, 47, 50, 53, 56],),([1, 3, 6, 9, 15, 21],),([29, 31, 34, 38, 41, 47],),([50, 53, 56, 60, 67, 72],),([1, 4, 7, 10, 14, 18, 23],)],
+        
       }
     
     def check_solution(event):
