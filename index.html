@@ -289,6 +289,7 @@
       "21": "قم بكتابة دالة اسمها: arrowDuplicates تستقبل متغير من نوع string يتكون من حروف، تقوم الدالة باستبدال الاحرف باحد الرمزين (>) و(<) بحيث اذا كان الحرف مكرر في الكلمة يتحول الى > واذا كان الحرف لا يتكرر يتحول الى < \nحيث النتيجة للدالة تكون من نوع string",
       "22": "قم بكتابة دالة اسمها: longestPrimeDiffSubarray تستقبل مصفوفة arr من الأعداد الصحيحة من نوع list[int]. تقوم الدالة بإيجاد أطول سلسلة فرعية متجاورة (subarray) بحيث يكون الفرق المطلق بين كل عنصرين متتاليين عددًا أوليًا.\nملحوظات :\nإذا كانت القائمة الداخله فارغة تعيد الدالة قائمة فارغة.\nإذا كانت القائمة تحتوي على عنصر واحد فقط يمكن إعادة القائمة كما هي.\nإذا وجدت أكثر من سلسلة فرعية بنفس الطول الأقصى تعيد الدالة أول سلسلة فرعية تظهر في القائمة.\nيُمكن اعتبار سلسلتين مكونتين من عنصرين صحيحيتين إذا تحققت العلاقة بينهما.",
       "23": "قم بكتابة دالة اسمها: wordRelationships تقوم بتحليل النصوص واستخراج العلاقات بين الكلمات باستخدام القواميس. الدالة يجب أن تقوم بالآتي:\nإنشاء قاموس بحيث تكون كل كلمة “مفتاح”، والقيمة هي قاموس آخر يحتوي على الكلمات التي تليها مباشرة وعدد مرات ظهور كل كلمة تالية.\n\nمثال للفهم ( ضروري تشوفه عشان تفهم اللي الدالة بتعمله)\nعندي txt :\ntext = 'Programming is fun and challenging. Programming teaches logical thinking. Programming is fun.'\nالداله هتقوم ماسكة كل كلمه مثلا اول كلمه اللي هي : Programming و تعملها كا key لقاموس وبعدين تعمل ال value بتاع ال key دا : عباره عن قاموس كل key في القاموس دا عبارة عن كل الكلمات اللي اتت بعد كل كلمة Programming في النص و ال value بتاع كل كلمة يكون عدد تكرارها (يعني جات كام مره بعد كلمة ال Programming ) يعني اول key في قاموس الحل هيبقي بتاع ال Programming هيبقي كدا :\n{'programming': {'is': 2, 'teaches': 1}}\nخد بالك انه ال value بتبيقي عباره عن عدد تكرار الكلمه ورا الكلمه اللي في ال key يعني لو الكلمه متكرره تاني بس مش ورا الكلمه اللي في ال key يبقي بتتحسب عدد المرات اللي كانت قدام كلمة ال key فيهم يعني مثلا في نفس النص اللي فوق لو ال key بتاعنا هو كلمة : challenging فا اذا ال value هيكون قاموس فيه اللي بيظهر بعدها في اي حته في النص : طيب هي كا كلمة ظهرت مره واحده بس في النص تمام يبقي كدا اكيد وراها كلمه واحده : طيب ايه هي الكلمه اللي جات بعدها :  '.' تمام طيب ال value بتاع ال '.' دي هيبقي كام ؟ هيبقي 1 مش 3 رغم ال '.' متكرره في النص 3 مرات بس متكرره بعد كلمة : challenging فقط مره واحده بس\nوبتالي قاموسها هيبقي كدا : \n'challenging': {'.': 1}\n",
+      "24": "قم بكتابة دالة اسمها: isEmail تستقبل قيمة نصية من نوع string . تقوم الدالة بالتحقق ما إذا كانت القيمة النصية تحتوي على بريد إلكتروني صحيح أم لا، عن طريق إرجاع قيمة من نوع boolean .\nشروط البريد الإلكتروني الصحيح:\n 1. أن لا يبدأ رمز\n 2. أن يحتوي الجزء الأول على خانة على الأقل (ما قبل الرمز `@`)\n 3. أن يحتوي على الرمز `@`\n 4. أن يتبع رمز `@` خانة على الأقل\n 5. أن يتبعه بعد ذلك بالرمز `.`\n 6. أن يتبع الرمز `.` بخانتين على الأقل\n 7. لا مانع من أن يحتوي الجزء الذي يسبق `@` على الرموز التالية `_.-`",
 
 
     };
@@ -318,7 +319,7 @@
       "21": [['Hi'],['Bb'],['SAFCSP'],['Java'],['aabbcc'],['abcdef'],['hello'],['AaBb'],['zzzzz'],['aaabaaa']],
       "22": [[[17, 19, 23, 28, 31, 37]],[[2, 3, 5, 7, 11, 13, 17]],[[30, 31, 33, 37, 42, 47, 53]],[[10, 13, 16, 19, 22, 25, 28]],[[8, 14, 20, 26, 32, 38]],[[41, 44, 47, 50, 53, 56]],[[1, 3, 6, 9, 15, 21]],[[29, 31, 34, 38, 41, 47]],[[50, 53, 56, 60, 67, 72]],[[1, 4, 7, 10, 14, 18, 23]]],
       "23": [['Programming is fun and challenging. Programming teaches logical thinking. Programming is fun.'],['Hello world. Hello again.'],['apple apple apple banana banana orange apple.'],['I like programming, I love coding! Do you like it?'],['Cat cat Dog dog cat Dog.'],['1 2 3 1 4 1 5.'],['Test test test test.'],['Python is fun, Python teaches programming. Python is amazing!'],['  Hello world!  How are you doing?   ']],
-
+      "24": [['example_name@example.com'],['ex.am.ple@example.com'],['example-name@example.com'],['user123@example.com'],['.example@example.com'],['exampleexample.com'],['example@@example.com'],['example@example.c'],['example@example.com'],['@example.com'],['example@com'],['example@example.c']],
 
     };
 
@@ -348,6 +349,7 @@
       "21": "#الحل\n\ndef arrowDuplicates(word):\n    new_word = word.lower()\n    for i in range(len(new_word)):\n        if i != 0:\n            if (new_word[i] in new_word[i+1:]) or (new_word[i] in new_word[i-1::-1]):\n                new_word = new_word.replace(new_word[i],'<')\n            else:\n                new_word = new_word.replace(new_word[i],'>')\n        else:\n            if (new_word[i] in new_word[i+1:]):\n                new_word = new_word.replace(new_word[i],'<')\n            else:\n                new_word = new_word.replace(new_word[i],'>')\n    return new_word",
       "22": "#الحل\n\ndef is_prime(n):\n    ''' دالة تتحقق مما إذا كان العدد n أوليًا '''\n    if n < 2:\n        return False\n    for i in range(2, int(n ** 0.5) + 1):\n        if n % i == 0:\n            return False\n    return True\ndef longestPrimeDiffSubarray(arr):\n    ''' دالة لإيجاد أطول سلسلة فرعية يكون الفرق بين عناصرها عددًا أوليًا اللي هي دالة الحل يعني'''\n    if not arr:\n        return []\n    max_subarray = []\n    current_subarray = [arr[0]]\n    for i in range(1, len(arr)):\n        # تحقق من كون الفرق بين العنصر الحالي والسابقة أوليا\n        if is_prime(abs(arr[i] - arr[i - 1])):\n            current_subarray.append(arr[i])\n        else:\n            if len(current_subarray) > len(max_subarray):\n                max_subarray = current_subarray[:]  # حفظ نسخة من السلسلة الحالية\n            current_subarray = [arr[i]]\n    if len(current_subarray) > len(max_subarray):\n        max_subarray = current_subarray\n    return max_subarray",
       "23": "#الحل\n\ndef wordRelationships(text):\n    text = text.replace('.', ' .').replace(',', ' ,')  # التأكد من فاصل الكلمات\n    words = text.lower().split()\n    relations = {}\n    for i in range(len(words) - 1):\n        word = words[i]\n        next_word = words[i + 1]\n        if word not in relations:\n            relations[word] = {}\n        if next_word not in relations[word]:\n            relations[word][next_word] = 1\n        else:\n            relations[word][next_word] += 1\n    return relations",
+      "24": "#الحل\n\ndef isEmail(email):\n    if not email or not email[0].isalnum():\n        return False\n\n    if '@' not in email or '.' not in email:\n        return False\n\n    at_index = email.index('@')\n    if at_index == 0 or at_index == len(email) - 1:\n        return False\n\n    local_part = email[:at_index]\n    domain_part = email[at_index + 1:]\n\n    if not local_part or any(c not in '-_.abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789' for c in local_part):\n        return False\n\n    if '.' not in domain_part or domain_part[0] == '.':\n        return False\n\n    last_dot_index = email.rindex('.')\n    if len(email) - last_dot_index - 1 < 2:\n        return False\n\n    if email.rindex('@') > last_dot_index:\n        return False\n\n    return True",
 
 
     };
@@ -418,6 +420,7 @@
         "21": "arrowDuplicates",
         "22": "longestPrimeDiffSubarray",
         "23": "wordRelationships",
+        "24": "isEmail",
 
     }
     
@@ -446,7 +449,7 @@
         "21": [('Hi',),('Bb',),('SAFCSP',),('Java',),('aabbcc',),('abcdef',),('hello',),('AaBb',),('zzzzz',),('aaabaaa',)],
         "22": [([17, 19, 23, 28, 31, 37],),([2, 3, 5, 7, 11, 13, 17],),([30, 31, 33, 37, 42, 47, 53],),([10, 13, 16, 19, 22, 25, 28],),([8, 14, 20, 26, 32, 38],),([41, 44, 47, 50, 53, 56],),([1, 3, 6, 9, 15, 21],),([29, 31, 34, 38, 41, 47],),([50, 53, 56, 60, 67, 72],),([1, 4, 7, 10, 14, 18, 23],)],
         "23": [('Programming is fun and challenging. Programming teaches logical thinking. Programming is fun.',),('Hello world. Hello again.',),('apple apple apple banana banana orange apple.',),('I like programming, I love coding! Do you like it?',),('Cat cat Dog dog cat Dog.',),('1 2 3 1 4 1 5.',),('Test test test test.',),('Python is fun, Python teaches programming. Python is amazing!',),('  Hello world!  How are you doing?   ',)],
-
+        "24": [('example_name@example.com',),('ex.am.ple@example.com',),('example-name@example.com',),('user123@example.com',),('.example@example.com',),('exampleexample.com',),('example@@example.com',),('example@example.c',),('example@example.com',),('@example.com',),('example@com',),('example@example.c',)],
         
       }
     
